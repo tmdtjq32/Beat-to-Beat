@@ -215,7 +215,7 @@ public class Game extends Thread {
 					new Beat(2330+1180 ,"D"),
 					new Beat(2330+1570 ,"F"),
 					new Beat(2330+1720 ,"D"),
-					
+					new Beat(4350 ,"D"),
 					
 			};
 		}
