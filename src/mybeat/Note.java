@@ -13,6 +13,20 @@ public class Note extends Thread {
 
 	private int x, y = 500 - (1000 / Main.SLEEP_TIME * Main.NOTE_SPEED) * Main.REACH_TIME;	
 	private String noteType;
+	private boolean proceeded = true;
+	
+	public String getNoteType() {
+		return noteType;
+	}
+	
+	public boolean isProceeded() {
+		return proceeded;
+	}
+	
+	public void close() {
+		proceeded = false;
+	}
+	
 	public Note(String noteType) {
 		if (noteType.equals("S") || noteType.equalsIgnoreCase("SL")) {
 			x = 117;
@@ -46,7 +60,9 @@ public class Note extends Thread {
 				g.drawImage(noteBasic, x, y, null);
 			}
 			else {
-				g.drawImage(noteBasicLong, x, y, null);
+				g.drawImage(noteBasic, x, y, null);
+				g.drawImage(noteBasic, x, y+40, null);
+				g.drawImage(noteBasic, x, y+80, null);
 			}
 		}
 		else {
@@ -54,27 +70,68 @@ public class Note extends Thread {
 				g.drawImage(noteWide, x, y, null);
 			}
 			else {
-				g.drawImage(noteWideLong, x, y, null);
+				g.drawImage(noteWide, x, y, null);
+				g.drawImage(noteWide, x, y+40, null);
+				g.drawImage(noteWide, x, y+40, null);
 			}
 		}
 	}
 	
 	public void drop() {
 		y += Main.NOTE_SPEED;
+		if (y > 545) {
+			System.out.println("Miss");
+			close();
+		}
 	}
 	
 	public void run() {
 		try {
 			while (true) {
 				drop();
-				Thread.sleep(Main.SLEEP_TIME);
+				if(proceeded) {
+					Thread.sleep(Main.SLEEP_TIME);
+				}
+				else {
+					interrupt();
+					break;
+				}
 			}
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
 	}
 	
-	
+	public void judge(String input) {
+		if (y >= 530) {
+			System.out.println("Late");
+			close();
+		}
+		else if (y >= 515) {
+			System.out.println("Good");
+			close();
+		}
+		else if (y >= 500) {
+			System.out.println("Great");
+			close();
+		}
+		else if (y >= 470) {
+			System.out.println("Excellent!");
+			close();
+		}
+		else if (y >= 455) {
+			System.out.println("Great!");
+			close();
+		}
+		else if (y >= 440) {
+			System.out.println("Good");
+			close();
+		}
+		else if (y >= 425) {
+			System.out.println("Too early");
+			close();
+		}
+	}
 	
 	
 }

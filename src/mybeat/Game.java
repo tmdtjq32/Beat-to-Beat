@@ -22,12 +22,24 @@ public class Game extends Thread {
 	private Image noteRouteHImage = new ImageIcon(Main.class.getResource("../images/noteRoute.png")).getImage();
 	private Image noteRouteJImage = new ImageIcon(Main.class.getResource("../images/noteRoute.png")).getImage();
 	private Image noteRouteKImage = new ImageIcon(Main.class.getResource("../images/noteRoute.png")).getImage();
+	private Image noteEffect = new ImageIcon(Main.class.getResource("../images/blueflare.png")).getImage();
+	
+	private Image lateEffect = new ImageIcon(Main.class.getResource("../images/lateEffect.png")).getImage();
 	
 	private String titleName;
 	private String difficulty;
 	private String musicTitle;
 	private Music gameMusic;
+	private int hp = 600;
 	
+	public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+
 	ArrayList<Note> noteList = new ArrayList<Note>();
 	
 	private boolean gameMaker = true; 
@@ -58,6 +70,13 @@ public class Game extends Thread {
 		g.drawImage(judgementLine, 0, 470, null);
 		for (int i = 0; i < noteList.size(); i++) {
 			Note note = noteList.get(i);
+			if (!note.isProceeded()) {
+				noteList.remove(i);
+				i--;
+			}
+			else {
+				note.screenDraw(g);
+			}
 			note.screenDraw(g);
 		}
 		g.setColor(Color.white);
@@ -77,9 +96,11 @@ public class Game extends Thread {
 
 		g.setFont(new Font("Elephant",Font.BOLD, 20));
 		g.drawString("000000",415,580);
+		
 	}
 	
 	public void pressS() {
+		judge("S");
 		if (gameMaker == true) {
 			System.out.println(gameMusic.getTime() + " S");
 		}
@@ -91,6 +112,7 @@ public class Game extends Thread {
 	}
 	
 	public void pressD() {
+		judge("D");
 		if (gameMaker == true) {
 			System.out.println(gameMusic.getTime() + " D");
 		}
@@ -102,6 +124,7 @@ public class Game extends Thread {
 	}
 	
 	public void pressF() {
+		judge("F");
 		if (gameMaker == true) {
 			System.out.println(gameMusic.getTime() + " F");
 		}
@@ -113,6 +136,7 @@ public class Game extends Thread {
 	}
 	
 	public void pressG() {
+		judge("G");
 		if (gameMaker == true) {
 			System.out.println(gameMusic.getTime() + " G");
 		}
@@ -126,6 +150,7 @@ public class Game extends Thread {
 	}
 	
 	public void pressH() {
+		judge("H");
 		if (gameMaker == true) {
 			System.out.println(gameMusic.getTime() + " H");
 		}
@@ -137,6 +162,7 @@ public class Game extends Thread {
 	}
 	
 	public void pressJ() {
+		judge("J");
 		if (gameMaker == true) {
 			System.out.println(gameMusic.getTime() + " J");
 		}
@@ -148,6 +174,7 @@ public class Game extends Thread {
 	}
 	
 	public void pressK() {
+		judge("K");
 		if (gameMaker == true) {
 			System.out.println(gameMusic.getTime() + " K");
 		}
@@ -170,53 +197,78 @@ public class Game extends Thread {
 	
 	public void dropNotes() {
 		Beat[] beat = null;
-		if (titleName.equals("The Jon Spencer Blues Explosion")) {
+		if (titleName.equals("The Jon Spencer Blues Explosion") && difficulty.equals("Easy")) {
 			int startTime = 1000 - Main.REACH_TIME * 1000;
 			int gap = 100;
 			beat = new Beat[] {
 					new Beat(startTime,"S"),
-					new Beat(startTime + gap*2,"GL")
-					
 			};
 		}
-		else if (titleName.equals("Best Friend")) {
+		else if (titleName.equals("The Jon Spencer Blues Explosion") && difficulty.equals("Hard")) {
 			int startTime = 1000 - Main.REACH_TIME * 1000;
 			int gap = 100;
 			beat = new Beat[] {
 					new Beat(startTime,"S")
-					
 			};
 		}
-		else if (titleName.equals("Tango")) {
+		else if (titleName.equals("Best Friend") && difficulty.equals("Easy")) {
 			int startTime = 1000 - Main.REACH_TIME * 1000;
 			int gap = 100;
 			beat = new Beat[] {
 					new Beat(startTime,"S")
+			};
+		}
+		else if (titleName.equals("Best Friend") && difficulty.equals("Hard")) {
+			int startTime = 1000 - Main.REACH_TIME * 1000;
+			int gap = 100;
+			beat = new Beat[] {
+					new Beat(startTime,"S")
+			};
+		}
+		else if (titleName.equals("Tango") && difficulty.equals("Easy")) {
+			int startTime = 1000 - Main.REACH_TIME * 1000;
+			int gap = 100;
+			beat = new Beat[] {
+					new Beat(startTime,"S")
+			};
+		}
+		else if (titleName.equals("Tango") && difficulty.equals("Hard")) {
+			int startTime = 1000 - Main.REACH_TIME * 1000;
+			int gap = 100;
+			beat = new Beat[] {
+					new Beat(startTime,"S")
+			};
+		}
+		else if (titleName.equals("Ice Cream") && difficulty.equals("Easy")) {
+			int startTime = 5000 - Main.REACH_TIME * 1000;
+			int gap = 125;
+			beat = new Beat[] {
+//					new Beat(0,"S"),
+//					new Beat(250,"D"),
+//					new Beat(430,"D"),
+//					new Beat(750,"S"),
+//					new Beat(1000 ,"D"),
+					new Beat(1180 ,"DL"),
+//					new Beat(1570 ,"F"),
+//					new Beat(1720 ,"D"),
+//					new Beat(2330,"S"),
+//					new Beat(2580,"D"),
+//					new Beat(2760,"D"),
+//					new Beat(3080,"S"),
+//					new Beat(3330 ,"D"),
+//					new Beat(3510 ,"D"),
+//					new Beat(3510 ,"G"),
+//					new Beat(3900 ,"F"),
+//					new Beat(4050 ,"D"),
+//					new Beat(4350 ,"D"),
 					
 			};
 		}
-		else if (titleName.equals("Ice Cream")) {
-			int startTime = 1000 - Main.REACH_TIME * 1000;
+		else if (titleName.equals("Ice Cream") && difficulty.equals("Hard")) {
+			int startTime = 2000 - Main.REACH_TIME * 1000;
 			int gap = 125;
 			beat = new Beat[] {
 					new Beat(0,"S"),
-					new Beat(250,"D"),
-					new Beat(430,"D"),
-					new Beat(750,"S"),
-					new Beat(1000 ,"D"),
-					new Beat(1180 ,"D"),
-					new Beat(1570 ,"F"),
-					new Beat(1720 ,"D"),
-					new Beat(2330,"S"),
-					new Beat(2330+250,"D"),
-					new Beat(2330+430,"D"),
-					new Beat(2330+750,"S"),
-					new Beat(2330+1000 ,"D"),
-					new Beat(2330+1180 ,"D"),
-					new Beat(2330+1570 ,"F"),
-					new Beat(2330+1720 ,"D"),
-					new Beat(4350 ,"D"),
-					
 			};
 		}
 		int i = 0;
@@ -240,4 +292,16 @@ public class Game extends Thread {
 			}
 		}
 	}
+	
+	public void judge(String input) {
+		 for (int i = 0; i < noteList.size(); i++) {
+			 Note note = noteList.get(i);
+			 if (input.equals(note.getNoteType())) {
+				 note.judge(input);
+				 break;
+			 }
+		 }
+	}
+	
+	
 }
